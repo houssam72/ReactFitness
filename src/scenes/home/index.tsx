@@ -25,7 +25,7 @@ const Home = ({ setSelectedPage }: Props) => {
       <div className="mx-auto w-5/6 items-center justify-center md:flex md:h-5/6">
         {/* MAIN HEADER */}
         <div className="z-10 mt-32 md:basis-3/5">
-          {/* HEADINGS */}
+          {/* HEADING */}
           <motion.div
             className="md:-mt-20"
             initial="hidden"
