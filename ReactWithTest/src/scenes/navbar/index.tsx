@@ -4,6 +4,7 @@ import { Bars3Icon } from "@heroicons/react/24/solid";
 import Link from "./Link";
 import { useState } from "react";
 import MenuMd from "./MenuMd";
+import Button from "@/shared/Button";
 
 type Props = {};
 
@@ -38,9 +39,7 @@ const Navbar = (props: Props) => {
                 <div className="my-auto flex justify-between gap-6">
                   <div className="my-auto text-lg">Sign In</div>
                   <div>
-                    <button className="rounded-lg bg-secondary-500 px-10 py-2 hover:bg-primary-500 hover:text-white">
-                      Become a member
-                    </button>
+                    <Button title="Become a member" />
                   </div>
                 </div>
               </div>

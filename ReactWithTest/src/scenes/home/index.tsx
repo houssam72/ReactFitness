@@ -4,14 +4,15 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 import redBull from "@/assets/SponsorRedBull.png";
 import forbes from "@/assets/SponsorForbes.png";
 import fortune from "@/assets/SponsorFortune.png";
+import Button from "@/shared/Button";
 
 type Props = {};
 
 const Home = (props: Props) => {
   const isAboveMediumScreens = useMediaQuery("(min-width:1060px)");
   return (
-    <section className="z-0 h-full min-h-full overflow-auto bg-gray-20 pt-[5.6rem]">
-      <div className="mx-auto flex h-full w-5/6  md:h-5/6 ">
+    <section className="z-0  min-h-full  bg-gray-20 pt-[5.6rem]">
+      <div className="mx-auto  w-5/6  md:h-5/6  ">
         <div className="my-auto w-full justify-between md:flex">
           <div className="my-auto  flex flex-col gap-8 py-4 md:max-w-lg ">
             <div>
@@ -26,9 +27,7 @@ const Home = (props: Props) => {
             </div>
             <div className="flex flex-row gap-8">
               <div>
-                <button className="rounded-lg bg-secondary-500 px-10 py-2 hover:bg-primary-500 hover:text-white">
-                  Join Now
-                </button>
+                <Button title="Join Now" />
               </div>
               <div className="my-auto">
                 <p className="cursor-pointer font-bold text-primary-500 underline hover:text-secondary-500	">
