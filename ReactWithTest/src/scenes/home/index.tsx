@@ -11,8 +11,8 @@ type Props = {};
 const Home = (props: Props) => {
   const isAboveMediumScreens = useMediaQuery("(min-width:1060px)");
   return (
-    <section className="z-0  min-h-full  bg-gray-20 pt-[5.6rem]">
-      <div className="mx-auto  w-5/6  md:h-5/6  ">
+    <section className="bg-gray-20 pb-16 pt-36 md:h-full md:pb-0 md:pt-[5.6rem]">
+      <div className="mx-auto w-5/6 items-center justify-center md:flex md:h-5/6">
         <div className="my-auto w-full justify-between md:flex">
           <div className="my-auto  flex flex-col gap-8 py-4 md:max-w-lg ">
             <div>
