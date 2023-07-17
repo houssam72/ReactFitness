@@ -36,7 +36,7 @@ const ContactUs = (props: Props) => {
               rows={4}
               cols={50}
             />
-            <div className=" mt-10">
+            <div className=" my-10  md:mb-0">
               <Button title="SUBMIT" />
             </div>
           </div>
