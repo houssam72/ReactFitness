@@ -1,10 +1,14 @@
-type Props = {title:string};
+import AnchorLink from "react-anchor-link-smooth-scroll";
 
-const Button = ({title}: Props) => {
+type Props = { title: string };
+
+const Button = ({ title }: Props) => {
   return (
-    <button className="rounded-lg bg-secondary-500 px-10 py-2 hover:bg-primary-500 hover:text-white">
-      {title}
-    </button>
+    <AnchorLink href="#contactus">
+      <button className="rounded-lg bg-secondary-500 px-10 py-2 hover:bg-primary-500 hover:text-white">
+        {title}
+      </button>
+    </AnchorLink>
   );
 };
 

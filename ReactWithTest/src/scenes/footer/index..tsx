@@ -1,7 +1,10 @@
 import logo from "@/assets/Logo.png";
-type Props = {};
+import { SelectedPage } from "@/shared/types";
+type Props = {
+  setSelectedPage: (selectedPage: SelectedPage) => void;
+};
 
-const Footer = (props: Props) => {
+const Footer = ({ setSelectedPage }: Props) => {
   return (
     <footer className="w-full bg-primary-100 py-16">
       <div className="mx-auto flex w-5/6 flex-col gap-16 md:flex-row  md:gap-0">

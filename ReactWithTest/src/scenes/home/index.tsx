@@ -5,13 +5,31 @@ import redBull from "@/assets/SponsorRedBull.png";
 import forbes from "@/assets/SponsorForbes.png";
 import fortune from "@/assets/SponsorFortune.png";
 import Button from "@/shared/Button";
+import { SelectedPage } from "@/shared/types";
+import { motion, useInView } from "framer-motion";
+import { useEffect, useRef } from "react";
+import AnchorLink from "react-anchor-link-smooth-scroll";
 
-type Props = {};
+type Props = {
+  setSelectedPage: (selectedPage: SelectedPage) => void;
+};
 
-const Home = (props: Props) => {
+const Home = ({ setSelectedPage }: Props) => {
+  const ref1 = useRef(null);
+  const isInView = useInView(ref1);
   const isAboveMediumScreens = useMediaQuery("(min-width:1060px)");
+  useEffect(() => {
+    if (isInView) {
+      console.log("Home");
+      setSelectedPage(SelectedPage.Home);
+    }
+  });
   return (
-    <section className="bg-gray-20 pb-16 pt-36 md:h-full md:pb-0 md:pt-[5.6rem]">
+    <motion.section
+      id="home"
+      className="bg-gray-20 pb-16 pt-36 md:h-full md:pb-0 md:pt-[5.6rem]"
+      ref={ref1}
+    >
       <div className="mx-auto w-5/6 items-center justify-center md:flex md:h-5/6">
         <div className="my-auto w-full justify-between md:flex">
           <div className="my-auto  flex flex-col gap-8 py-4 md:max-w-lg ">
@@ -30,10 +48,13 @@ const Home = (props: Props) => {
                 <Button title="Join Now" />
               </div>
               <div className="my-auto">
-                <p className="cursor-pointer font-bold text-primary-500 underline hover:text-secondary-500	">
+                <AnchorLink
+                  className="cursor-pointer font-bold text-primary-500 underline hover:text-secondary-500	"
+                  href="#ourclasses"
+                >
                   {" "}
                   Learn More
-                </p>
+                </AnchorLink>
               </div>
             </div>
           </div>
@@ -57,7 +78,7 @@ const Home = (props: Props) => {
           </div>
         </div>
       )}
-    </section>
+    </motion.section>
   );
 };
 

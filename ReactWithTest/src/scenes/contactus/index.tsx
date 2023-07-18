@@ -1,12 +1,28 @@
+import { useEffect, useRef } from "react";
 import Button from "@/shared/Button";
-import React from "react";
-
 import contactUsGraph from "@/assets/ContactUsPageGraphic.png";
-type Props = {};
+import { SelectedPage } from "@/shared/types";
+import { motion, useInView } from "framer-motion";
 
-const ContactUs = (props: Props) => {
+type Props = {
+  setSelectedPage: (selectedPage: SelectedPage) => void;
+};
+
+const ContactUs = ({ setSelectedPage }: Props) => {
+  const ref4 = useRef(null);
+  const isInView = useInView(ref4);
+  useEffect(() => {
+    if (isInView) {
+      console.log("ContactUss");
+      setSelectedPage(SelectedPage.ContactUs);
+    }
+  });
   return (
-    <section className=" flex min-h-full w-full items-center justify-center  pt-[5.6rem]">
+    <motion.section
+      id="contactus"
+      className=" flex min-h-full w-full items-center justify-center  pt-[5.6rem]"
+      ref={ref4}
+    >
       <div className="mx-auto w-5/6 ">
         <div className="sm:w-3/5">
           <h1 className=" text-l font-bold sm:text-3xl">
@@ -45,7 +61,7 @@ const ContactUs = (props: Props) => {
           </div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

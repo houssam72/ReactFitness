@@ -1,14 +1,27 @@
+import { useEffect, useRef } from "react";
 import image1 from "@/assets/image1.png";
 import image2 from "@/assets/image2.png";
 import image3 from "@/assets/image3.png";
 import image4 from "@/assets/image4.png";
 import image5 from "@/assets/image5.png";
 import image6 from "@/assets/image6.png";
-import { ClassType } from "@/shared/types";
+import { ClassType, SelectedPage } from "@/shared/types";
 import Class from "./Class";
-type Props = {};
+import { motion, useInView } from "framer-motion";
 
-const OurClasses = (props: Props) => {
+type Props = {
+  setSelectedPage: (selectedPage: SelectedPage) => void;
+};
+
+const OurClasses = ({ setSelectedPage }: Props) => {
+  const ref3 = useRef(null);
+  const isInView = useInView(ref3);
+  useEffect(() => {
+    if (isInView) {
+      console.log("ourclass");
+      setSelectedPage(SelectedPage.OurClasses);
+    }
+  });
   const classes: Array<ClassType> = [
     {
       name: "Weight Training Classes",
@@ -44,7 +57,11 @@ const OurClasses = (props: Props) => {
     },
   ];
   return (
-    <section className="flex h-full items-center bg-primary-500  pb-24 pt-[5.6rem]">
+    <motion.section
+      id="ourclasses"
+      className="flex h-full items-center bg-primary-500  pb-24 pt-[5.6rem]"
+      ref={ref3}
+    >
       <div className="w-full">
         <div className="mx-auto  w-5/6">
           <div className="md:w-3/5">
@@ -67,7 +84,7 @@ const OurClasses = (props: Props) => {
           ))}
         </ul>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

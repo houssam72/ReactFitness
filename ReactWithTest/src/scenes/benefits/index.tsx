@@ -1,4 +1,5 @@
-import { BenefitType } from "@/shared/types";
+import { useEffect, useRef } from "react";
+import { BenefitType, SelectedPage } from "@/shared/types";
 import {
   AcademicCapIcon,
   HomeModernIcon,
@@ -7,8 +8,11 @@ import {
 import Benefit from "./Benefit";
 import BenefitGraph from "@/assets/BenefitsPageGraphic.png";
 import Button from "@/shared/Button";
+import { motion, useInView } from "framer-motion";
 
-type Props = {};
+type Props = {
+  setSelectedPage: (selectedPage: SelectedPage) => void;
+};
 
 const benefits: Array<BenefitType> = [
   {
@@ -31,9 +35,23 @@ const benefits: Array<BenefitType> = [
   },
 ];
 
-const Benefits = (props: Props) => {
+const Benefits = ({ setSelectedPage }: Props) => {
+  const ref2 = useRef(null);
+  const isInView = useInView(ref2);
+
+  useEffect(() => {
+    if (isInView) {
+      console.log("benefits");
+      setSelectedPage(SelectedPage.Benefits);
+    }
+  });
+
   return (
-    <section className=" min-h-screen  w-full bg-white pt-[5.6rem]">
+    <motion.section
+      id="benefits"
+      className=" min-h-screen  w-full bg-white pt-[5.6rem]"
+      ref={ref2}
+    >
       <div className=" mx-auto min-h-screen w-5/6 py-20">
         <div className="my-5 md:w-3/5">
           <div className="text-3xl font-bold">
@@ -58,7 +76,11 @@ const Benefits = (props: Props) => {
         </div>
         <div className="mt-16 justify-between md:flex">
           <div className="  basis-2/5 ">
-            <img src={BenefitGraph} alt="benefitsPageGraph" className="mx-auto md:mx-0" />
+            <img
+              src={BenefitGraph}
+              alt="benefitsPageGraph"
+              className="mx-auto md:mx-0"
+            />
           </div>
           <div className="flex basis-3/5 items-center">
             <div className="flex flex-col gap-5">
@@ -88,7 +110,7 @@ const Benefits = (props: Props) => {
           </div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

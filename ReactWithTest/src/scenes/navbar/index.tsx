@@ -6,14 +6,17 @@ import { useState } from "react";
 import MenuMd from "./MenuMd";
 import Button from "@/shared/Button";
 
-type Props = {};
+type Props = {
+  isTop: boolean;
+  selectedPage: string;
+};
 
-const Navbar = (props: Props) => {
+const Navbar = ({ isTop, selectedPage }: Props) => {
   const [isMenuToggled, setIsMenuToggled] = useState<boolean>(false);
   const isAboveMediumScreens = useMediaQuery("(min-width:1060px)");
   return (
     <div>
-      <div className="fixed top-0 z-30 w-full">
+      <div className={`fixed top-0 z-30 w-full ${!isTop && "bg-primary-100"}`}>
         {/* w-5/6 */}
         <div className=" mx-auto w-5/6 py-6">
           {/* Image and Links And Signin and Become a Member */}
@@ -29,10 +32,10 @@ const Navbar = (props: Props) => {
                 {/* Links */}
 
                 <div className="my-auto flex justify-between gap-4 text-sm">
-                  <Link value="Home" />
-                  <Link value="Benefits" />
-                  <Link value="Our Classes" />
-                  <Link value="ContactUs" />
+                  <Link value="Home" selectedPage={selectedPage} />
+                  <Link value="Benefits" selectedPage={selectedPage} />
+                  <Link value="Our Classes" selectedPage={selectedPage} />
+                  <Link value="ContactUs" selectedPage={selectedPage} />
                 </div>
 
                 {/* Sign In And button */}
@@ -60,6 +63,7 @@ const Navbar = (props: Props) => {
       </div>
       {isMenuToggled && !isAboveMediumScreens && (
         <MenuMd
+          selectedPage={selectedPage}
           setIsMenuToggled={setIsMenuToggled}
           isMenuToggled={isMenuToggled}
         />
