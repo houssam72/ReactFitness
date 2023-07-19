@@ -1,30 +1,42 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import Button from "@/shared/Button";
 import contactUsGraph from "@/assets/ContactUsPageGraphic.png";
 import { SelectedPage } from "@/shared/types";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
+import { handleScroll } from "@/shared/Functions";
 
 type Props = {
   setSelectedPage: (selectedPage: SelectedPage) => void;
 };
 
 const ContactUs = ({ setSelectedPage }: Props) => {
-  const ref4 = useRef(null);
-  const isInView = useInView(ref4);
   useEffect(() => {
-    if (isInView) {
-      console.log("ContactUss");
-      setSelectedPage(SelectedPage.ContactUs);
-    }
-  });
+    window.addEventListener("scroll", () => {
+      handleScroll(setSelectedPage, SelectedPage.ContactUs);
+    });
+    return () => {
+      window.removeEventListener("scroll", () => {
+        handleScroll(setSelectedPage, SelectedPage.ContactUs);
+      });
+    };
+  }, []);
   return (
-    <motion.section
-      id="contactus"
+    <section
+      id={SelectedPage.ContactUs}
       className=" flex min-h-full w-full items-center justify-center  pt-[5.6rem]"
-      ref={ref4}
     >
       <div className="mx-auto w-5/6 ">
-        <div className="sm:w-3/5">
+        <motion.div
+          className="sm:w-3/5"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 0.5 }}
+          variants={{
+            hidden: { opacity: 0, x: -50 },
+            visible: { opacity: 1, x: 0 },
+          }}
+        >
           <h1 className=" text-l font-bold sm:text-3xl">
             <span className="text-primary-500">JOIN NOW</span> TO GET IN SHAPE
           </h1>
@@ -33,9 +45,19 @@ const ContactUs = ({ setSelectedPage }: Props) => {
             sapien vel rhoncus. Placerat at in enim pellentesque. Nulla
             adipiscing leo egestas nisi elit risus sit. Nunc cursus sagittis.
           </p>
-        </div>
+        </motion.div>
         <div className="gap-5 sm:flex">
-          <div className="flex w-full flex-col gap-8 sm:w-3/5">
+          <motion.div
+            className="flex w-full flex-col gap-8 sm:w-3/5"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 0.5 }}
+            variants={{
+              hidden: { opacity: 0, y: 50 },
+              visible: { opacity: 1, y: 0 },
+            }}
+          >
             <input
               type="text"
               placeholder="NAME"
@@ -55,13 +77,23 @@ const ContactUs = ({ setSelectedPage }: Props) => {
             <div className=" my-10  md:mb-0">
               <Button title="SUBMIT" />
             </div>
-          </div>
-          <div className=" my-7 sm:my-0 sm:w-2/5">
+          </motion.div>
+          <motion.div
+            className=" my-7 sm:my-0 sm:w-2/5"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+            variants={{
+              hidden: { opacity: 0, y: 50 },
+              visible: { opacity: 1, y: 0 },
+            }}
+          >
             <img src={contactUsGraph} alt="contactUsGraph" className="w-full" />
-          </div>
+          </motion.div>
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 };
 

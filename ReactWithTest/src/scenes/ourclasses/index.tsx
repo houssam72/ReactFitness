@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import image1 from "@/assets/image1.png";
 import image2 from "@/assets/image2.png";
 import image3 from "@/assets/image3.png";
@@ -7,21 +7,24 @@ import image5 from "@/assets/image5.png";
 import image6 from "@/assets/image6.png";
 import { ClassType, SelectedPage } from "@/shared/types";
 import Class from "./Class";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
+import { handleScroll } from "@/shared/Functions";
 
 type Props = {
   setSelectedPage: (selectedPage: SelectedPage) => void;
 };
 
 const OurClasses = ({ setSelectedPage }: Props) => {
-  const ref3 = useRef(null);
-  const isInView = useInView(ref3);
   useEffect(() => {
-    if (isInView) {
-      console.log("ourclass");
-      setSelectedPage(SelectedPage.OurClasses);
-    }
-  });
+    window.addEventListener("scroll", () => {
+      handleScroll(setSelectedPage, SelectedPage.OurClasses);
+    });
+    return () => {
+      window.removeEventListener("scroll", () => {
+        handleScroll(setSelectedPage, SelectedPage.OurClasses);
+      });
+    };
+  }, []);
   const classes: Array<ClassType> = [
     {
       name: "Weight Training Classes",
@@ -57,13 +60,21 @@ const OurClasses = ({ setSelectedPage }: Props) => {
     },
   ];
   return (
-    <motion.section
-      id="ourclasses"
+    <section
+      id={SelectedPage.OurClasses}
       className="flex h-full items-center bg-primary-500  pb-24 pt-[5.6rem]"
-      ref={ref3}
     >
       <div className="w-full">
-        <div className="mx-auto  w-5/6">
+        <motion.div
+          className="mx-auto  w-5/6"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 0.5 }}
+          variants={{
+            hidden: { opacity: 0, x: -50 },
+            visible: { opacity: 1, x: 0 },
+          }}
+        >
           <div className="md:w-3/5">
             <div className=" text-3xl font-bold">
               <h1>OUR CLASSES</h1>
@@ -77,14 +88,14 @@ const OurClasses = ({ setSelectedPage }: Props) => {
               </p>
             </div>
           </div>
-        </div>
+        </motion.div>
         <ul className="mt-12   overflow-x-scroll whitespace-nowrap p-5">
           {classes.map((e) => (
             <Class name={e.name} image={e.image} description={e.description} />
           ))}
         </ul>
       </div>
-    </motion.section>
+    </section>
   );
 };
 

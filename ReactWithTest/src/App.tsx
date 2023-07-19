@@ -19,24 +19,12 @@ function App() {
         setIsTop(false);
       }
     };
-
     window.addEventListener("scroll", () => handleScroll());
     return () => {
       window.removeEventListener("scroll", () => handleScroll());
     };
   }, []);
-  useEffect(() => {
-    // cette condition sert seulement a fixer un bug car selectedPage donne au debut benefits
-    // ce bug c'est logique car normalement InVie voit benefit il l'a detecte mes les yeux
-    // humaine peuvent pas c'est normal
-    // Houssam shayzane
-    if (window.scrollY == 0) {
-      console.log("bug fixe");
-      setSelectedPage(SelectedPage.Home);
-    }
-    // **********************
-    //
-  });
+
   return (
     <div className="app bg-gray-20">
       <Navbar isTop={isTop} selectedPage={selectedPage} />

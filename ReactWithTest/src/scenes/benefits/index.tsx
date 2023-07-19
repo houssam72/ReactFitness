@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { BenefitType, SelectedPage } from "@/shared/types";
 import {
   AcademicCapIcon,
@@ -8,10 +8,18 @@ import {
 import Benefit from "./Benefit";
 import BenefitGraph from "@/assets/BenefitsPageGraphic.png";
 import Button from "@/shared/Button";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
+import { handleScroll } from "@/shared/Functions";
 
 type Props = {
   setSelectedPage: (selectedPage: SelectedPage) => void;
+};
+
+const container = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.2 },
+  },
 };
 
 const benefits: Array<BenefitType> = [
@@ -36,24 +44,34 @@ const benefits: Array<BenefitType> = [
 ];
 
 const Benefits = ({ setSelectedPage }: Props) => {
-  const ref2 = useRef(null);
-  const isInView = useInView(ref2);
-
   useEffect(() => {
-    if (isInView) {
-      console.log("benefits");
-      setSelectedPage(SelectedPage.Benefits);
-    }
-  });
+    window.addEventListener("scroll", () => {
+      handleScroll(setSelectedPage, SelectedPage.Benefits);
+    });
+    return () => {
+      window.removeEventListener("scroll", () => {
+        handleScroll(setSelectedPage, SelectedPage.Benefits);
+      });
+    };
+  }, []);
 
   return (
-    <motion.section
-      id="benefits"
+    <section
+      id={SelectedPage.Benefits}
       className=" min-h-screen  w-full bg-white pt-[5.6rem]"
-      ref={ref2}
     >
       <div className=" mx-auto min-h-screen w-5/6 py-20">
-        <div className="my-5 md:w-3/5">
+        <motion.div
+          className="my-5 md:w-3/5"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 0.5 }}
+          variants={{
+            hidden: { opacity: 0, x: -100 },
+            visible: { opacity: 1, x: 0 },
+          }}
+        >
           <div className="text-3xl font-bold">
             <h1>MORE THAN JUST GYM.</h1>
           </div>
@@ -64,8 +82,14 @@ const Benefits = ({ setSelectedPage }: Props) => {
               care into each and every member.
             </p>
           </div>
-        </div>
-        <div className="justify-between gap-8 py-5 md:flex">
+        </motion.div>
+        <motion.div
+          className="justify-between gap-8 py-5 md:flex"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.5 }}
+          variants={container}
+        >
           {benefits.map((benefit: BenefitType) => (
             <Benefit
               icon={benefit.icon}
@@ -73,7 +97,7 @@ const Benefits = ({ setSelectedPage }: Props) => {
               description={benefit.description}
             />
           ))}
-        </div>
+        </motion.div>
         <div className="mt-16 justify-between md:flex">
           <div className="  basis-2/5 ">
             <img
@@ -84,11 +108,30 @@ const Benefits = ({ setSelectedPage }: Props) => {
           </div>
           <div className="flex basis-3/5 items-center">
             <div className="flex flex-col gap-5">
-              <div className=" text-3xl font-bold">
+              <motion.div
+                className=" text-3xl font-bold"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{ duration: 0.5 }}
+                variants={{
+                  hidden: { opacity: 0, x: 50 },
+                  visible: { opacity: 1, x: 0 },
+                }}
+              >
                 MILLION OF HAPPY MEMBERS GETTING{" "}
                 <span className=" text-primary-500">Fit</span>
-              </div>
-              <div>
+              </motion.div>
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+                variants={{
+                  hidden: { opacity: 0, x: 50 },
+                  visible: { opacity: 1, x: 0 },
+                }}
+              >
                 {" "}
                 Nascetur aenean massa auctor tincidunt. Iaculis potenti amet
                 egestas ultrices consectetur adipiscing ultricies enim. Pulvinar
@@ -96,13 +139,22 @@ const Benefits = ({ setSelectedPage }: Props) => {
                 nulla nec. Consequat sed facilisis dui sit egestas ultrices
                 tellus. Ullamcorper arcu id pretium sapien proin integer nisl.
                 Felis orci diam odio.{" "}
-              </div>
-              <div>
+              </motion.div>
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+                variants={{
+                  hidden: { opacity: 0, x: 50 },
+                  visible: { opacity: 1, x: 0 },
+                }}
+              >
                 Fringilla a sed at suspendisse ut enim volutpat. Rhoncus vel est
                 tellus quam porttitor. Mauris velit euismod elementum arcu neque
                 facilisi. Amet semper tortor facilisis metus nibh. Rhoncus sit
                 enim mattis odio in risus nunc.
-              </div>
+              </motion.div>
               <div className=" mt-11">
                 <Button title="Join Now" />
               </div>
@@ -110,7 +162,7 @@ const Benefits = ({ setSelectedPage }: Props) => {
           </div>
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 };
 
