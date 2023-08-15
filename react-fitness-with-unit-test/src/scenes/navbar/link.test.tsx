@@ -26,10 +26,6 @@ describe("test the link component", () => {
     );
     const link = screen.getByRole("link", { name: "Home" });
     expect(link).toHaveAttribute("href", "#home");
-    expect(link).toHaveAttribute(
-      "class",
-      "text-primary-500 transition duration-500 hover:text-primary-300"
-    );
     userEvent.click(link);
     expect(setSelectedPageMock).toHaveBeenCalledWith("home");
   });

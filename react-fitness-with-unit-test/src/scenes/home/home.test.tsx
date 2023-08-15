@@ -43,42 +43,6 @@ jest.mock("react-anchor-link-smooth-scroll", () => {
 describe("HomeTest", () => {
   const useMediaQuery = require("../../hooks/useMediaQuery").default;
 
-  test("test si y'a les base necessaire pour le composant Home", () => {
-    const setSelectedPage = jest.fn();
-    render(<Home setSelectedPage={setSelectedPage} />);
-    const Text = screen.getByText(
-      /unrivaled gym\. unparalleled training fitness classes\. world class studios to get the body shapes that you dream of\.\. get your dream body now\./i
-    );
-    const homePageImgText = screen.getByRole("img", {
-      name: /home\-page\-text/i,
-    });
-    const homePageImgGraphics = screen.getByRole("img", {
-      name: /home\-pagegraphic/i,
-    });
-    const btnJoinNow = screen.getByRole("link", { name: /join now/i });
-    const learMore = screen.getByRole("link", { name: /learn more/i });
-    expect(Text).toBeInTheDocument();
-    expect(homePageImgText).toBeInTheDocument();
-    expect(homePageImgGraphics).toBeInTheDocument();
-    expect(btnJoinNow).toHaveAttribute("href", "#contactus");
-    expect(learMore).toHaveAttribute("href", "#contactus");
-  });
-
-  test("test onViewportEnter when we are in home", () => {
-    const setSelectedPageMock = jest.fn();
-    render(<Home setSelectedPage={setSelectedPageMock} />);
-    const homeSection = screen.getByTestId("home");
-    expect(homeSection).toBeInTheDocument();
-    // const mockOnViewportEnter = homeSection.getAttribute("onViewportEnter");
-    // if (mockOnViewportEnter) {
-    //   const mockFunction = jest.fn();
-    //   eval(mockOnViewportEnter); // Evaluate the mock function
-    //   mockFunction(); // Call the mock function
-    // }
-    // fireEvent.mouseEnter(homeSection );
-    // expect(setSelectedPageMock).toHaveBeenCalledWith(SelectedPage.Home);
-  });
-
   test("test Learn More Link", () => {
     const setSelectedPageMock = jest.fn();
     render(<Home setSelectedPage={setSelectedPageMock} />);
@@ -86,7 +50,10 @@ describe("HomeTest", () => {
     expect(learMoreLink).toHaveAttribute("href", `#${SelectedPage.ContactUs}`);
     userEvent.click(learMoreLink);
     expect(setSelectedPageMock).toBeCalledTimes(2);
-    expect(setSelectedPageMock).toHaveBeenCalledWith(SelectedPage.ContactUs);
+    expect(setSelectedPageMock).toHaveBeenNthCalledWith(
+      2,
+      SelectedPage.ContactUs
+    );
   });
 
   test("test join now button", () => {

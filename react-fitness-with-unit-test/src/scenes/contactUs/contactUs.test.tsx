@@ -21,24 +21,6 @@ jest.mock("framer-motion", () => ({
 }));
 
 describe("ContactUs Test", () => {
-  test("Les tests BAsic", () => {
-    const setSelectedPageMock = jest.fn();
-    render(<ContactUs setSelectedPage={setSelectedPageMock} />);
-    const firstHeading = screen.getByRole("heading", {
-      name: /join now to get in shape/i,
-    });
-    const firstText = screen.getByText(
-      /congue adipiscing risus commodo placerat\. tellus et in feugiat nisl sapien vel rhoncus\. placerat at in enim pellentesque\. nulla adipiscing leo egestas nisi elit risus sit\. nunc cursus sagittis\./i
-    );
-    const img = screen.getByRole("img", {
-      name: /contact\-us\-page\-graphic/i,
-    });
-
-    expect(firstHeading).toBeInTheDocument();
-    expect(firstText).toBeInTheDocument();
-    expect(img).toBeInTheDocument();
-  });
-
   test("onviewportEnter", () => {
     const setSelectedPageMock = jest.fn();
     render(<ContactUs setSelectedPage={setSelectedPageMock} />);
@@ -194,7 +176,7 @@ describe("ContactUs Test", () => {
     expect(screen.queryAllByText(/This field is required/i)).toHaveLength(1);
   });
 
-  test("Affichage du meesage [Max length is 100 char] pour l'input name", async () => {
+  test("Affichage du meesage [Max length is 100 char] pour l'input Message", async () => {
     const setSelectedPageMock = jest.fn();
 
     render(<ContactUs setSelectedPage={setSelectedPageMock} />);

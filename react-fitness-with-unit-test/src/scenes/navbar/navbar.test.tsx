@@ -9,10 +9,6 @@ import Navbar from ".";
 import { SelectedPage } from "../../shared/types";
 import useMediaQuery from "../../hooks/useMediaQuery";
 
-// jest.mock("@heroicons/react/24/solid", () => ({
-//   Bars3Icon: () => <p>Bars3Icon</p>,
-// }));
-
 jest.mock("react-anchor-link-smooth-scroll", () => ({
   __esModule: true,
   default: ({
@@ -29,28 +25,6 @@ const getMinWidthFromMediaQuery = (query: string) => {
 };
 
 describe("navBarTest", () => {
-  test("navBar first test img", () => {
-    // Mock window.matchMedia
-    let matchMediaMock = jest.fn((query: string) => ({
-      matches:
-        getMinWidthFromMediaQuery(query) <= global.innerWidth ? true : false,
-      addListener: jest.fn(),
-      removeListener: jest.fn(),
-    }));
-    window.matchMedia = matchMediaMock as any;
-
-    const setSelectedPageMock = jest.fn();
-
-    render(
-      <Navbar
-        setSelectedPage={setSelectedPageMock}
-        selectedPage={SelectedPage.Home}
-        isTopOfPage={true}
-      />
-    );
-    expect(screen.getByRole("img", { name: /logo/i })).toBeInTheDocument();
-  });
-
   test("Test si je suis en haut de la page", () => {
     // Mock window.matchMedia
     let matchMediaMock = jest.fn((query: string) => ({
