@@ -1,12 +1,21 @@
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import ContactUs from "./index";
+import { SelectedPage } from "../../shared/types";
 
 jest.mock("framer-motion", () => ({
   motion: {
     div: ({ children }: { children: React.ReactNode }) => <div>{children}</div>, // Mock the motion.div component
-    section: ({ children }: { children: React.ReactNode }) => (
-      <section data-testid="home">{children}</section>
+    section: ({
+      children,
+      onViewportEnter,
+    }: {
+      children: React.ReactNode;
+      onViewportEnter: any;
+    }) => (
+      <section data-testid="contactUs" onFocus={() => onViewportEnter()}>
+        {children}
+      </section>
     ), // Mock the motion.section component
   },
 }));
@@ -28,6 +37,14 @@ describe("ContactUs Test", () => {
     expect(firstHeading).toBeInTheDocument();
     expect(firstText).toBeInTheDocument();
     expect(img).toBeInTheDocument();
+  });
+
+  test("onviewportEnter", () => {
+    const setSelectedPageMock = jest.fn();
+    render(<ContactUs setSelectedPage={setSelectedPageMock} />);
+    fireEvent.focus(screen.getByTestId("contactUs"));
+    expect(setSelectedPageMock).toBeCalledTimes(1);
+    expect(setSelectedPageMock).toHaveBeenCalledWith(SelectedPage.ContactUs);
   });
 
   test("Test formulaire en remplir tous les input", async () => {

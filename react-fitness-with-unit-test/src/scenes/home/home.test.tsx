@@ -2,14 +2,23 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import Home from "./index";
 import { SelectedPage } from "../../shared/types";
 import userEvent from "@testing-library/user-event";
+import { motion } from "framer-motion";
 
 // il faut continuer les test sur "test onViewportEnter when we are in home"
 
 jest.mock("framer-motion", () => ({
   motion: {
     div: ({ children }: { children: React.ReactNode }) => <div>{children}</div>, // Mock the motion.div component
-    section: ({ children }: { children: React.ReactNode }) => (
-      <section data-testid="home">{children}</section>
+    section: ({
+      children,
+      onViewportEnter,
+    }: {
+      children: React.ReactNode;
+      onViewportEnter: any;
+    }) => (
+      <section data-testid="home" onFocus={() => onViewportEnter()}>
+        {children}
+      </section>
     ), // Mock the motion.section component
   },
 }));
@@ -76,7 +85,7 @@ describe("HomeTest", () => {
     const learMoreLink = screen.getByRole("link", { name: /learn more/i });
     expect(learMoreLink).toHaveAttribute("href", `#${SelectedPage.ContactUs}`);
     userEvent.click(learMoreLink);
-    expect(setSelectedPageMock).toBeCalledTimes(1);
+    expect(setSelectedPageMock).toBeCalledTimes(2);
     expect(setSelectedPageMock).toHaveBeenCalledWith(SelectedPage.ContactUs);
   });
 
@@ -91,8 +100,11 @@ describe("HomeTest", () => {
       `#${SelectedPage.ContactUs}`
     );
     userEvent.click(actionButtonText);
-    expect(setSelectedPageMock).toHaveBeenCalledTimes(1);
-    expect(setSelectedPageMock).toHaveBeenCalledWith(SelectedPage.ContactUs);
+    expect(setSelectedPageMock).toHaveBeenCalledTimes(2);
+    expect(setSelectedPageMock).toHaveBeenNthCalledWith(
+      2,
+      SelectedPage.ContactUs
+    );
   });
 
   test("Test la partie d'affichage des sponseur", () => {
@@ -131,6 +143,14 @@ describe("HomeTest", () => {
     expect(imgRedBull).not.toBeInTheDocument();
     expect(imgForbes).not.toBeInTheDocument();
     expect(imgFortune).not.toBeInTheDocument();
+  });
+
+  test("onViewPortEnter test", () => {
+    const setSelectedPageMock = jest.fn();
+    render(<Home setSelectedPage={setSelectedPageMock} />);
+    fireEvent.focus(screen.getByTestId("home"));
+    expect(setSelectedPageMock).toBeCalledTimes(1);
+    expect(setSelectedPageMock).toHaveBeenCalledWith(SelectedPage.Home);
   });
 });
 
